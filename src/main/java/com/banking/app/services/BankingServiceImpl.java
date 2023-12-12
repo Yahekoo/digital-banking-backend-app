@@ -196,5 +196,14 @@ public class BankingServiceImpl implements BankingService{
 
     }
 
+    @Override
+    public List<CustomerDTO> getCustomerByName(String name) throws CustomerNotFoundException {
+        List<Customer> customers = customerRepository.findByNameContains(name);
+        if (customers == null) {
+            throw new CustomerNotFoundException("No Customer with such name found");
+        }
+        return customers.stream().map(c -> mapper.customerDTOMapper(c)).toList();
+    }
+
 
 }
